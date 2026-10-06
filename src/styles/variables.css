@@ -1,0 +1,47 @@
+:root {
+  /* Core Colors */
+  --primary-blue: #2563eb;
+  --primary-hover: #1d4ed8;
+  --dark-blue: #1e3a8a;
+  --light-blue: #eff6ff;
+  --accent-blue: #3b82f6;
+  --glow-blue: #93c5fd;
+  --white: #ffffff;
+  --bg-light: #f8fafc;
+  --card-bg: #ffffff;
+
+  /* Status & Feedback Colors */
+  --success-green: #10b981;
+  --success-light: #ecfdf5;
+  --warning-amber: #f59e0b;
+  --warning-light: #fffbeb;
+  --error-red: #ef4444;
+  --error-light: #fef2f2;
+
+  /* Text Colors */
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+  --text-white: #ffffff;
+
+  /* Border & Radii */
+  --border-color: #dbeafe;
+  --border-subtle: #e5e7eb;
+  --radius: 16px;
+  --radius-sm: 8px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(37, 99, 235, 0.05);
+  --shadow-md: 0 4px 20px rgba(37, 99, 235, 0.08);
+  --shadow-lg: 0 12px 32px rgba(30, 58, 138, 0.12);
+  --shadow-hover: 0 16px 36px rgba(37, 99, 235, 0.18);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Typography */
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}

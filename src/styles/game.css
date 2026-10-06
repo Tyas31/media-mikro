@@ -1,0 +1,1473 @@
+/* =========================================================
+   GAME GLOBAL
+========================================================= */
+
+.game-page {
+  padding: 3rem 0;
+}
+
+.game-header {
+  margin-bottom: 2rem;
+}
+
+.game-header h1 {
+  font-size: 2rem;
+  color: var(--dark-blue);
+  margin-bottom: 0.5rem;
+}
+
+.game-header p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   INSTRUCTION
+========================================================= */
+
+.game-instruction {
+  background: #eef6ff;
+  border: 1px solid #cfe3ff;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 2rem;
+
+  color: var(--text-dark);
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  line-height: 1.5;
+}
+
+.game-instruction span {
+  background: var(--dark-blue);
+  color: white;
+
+  width: 28px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   =========================================================
+   LEVEL 1
+   Kenali Perangkat I/O
+   =========================================================
+   ========================================================= */
+
+.matching-area {
+  display: grid;
+  grid-template-columns: 1fr 90px 1fr;
+
+  gap: 1.2rem;
+
+  align-items: center;
+
+  margin-top: 2rem;
+}
+
+.matching-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.matching-column h3 {
+  color: var(--dark-blue);
+  margin-bottom: 0.3rem;
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   LEVEL 1 - ITEM
+========================================================= */
+
+.match-item {
+  width: 100%;
+  min-height: 62px;
+
+  border: 2px solid #b8cbea;
+  background: #f8fbff;
+
+  border-radius: 14px;
+
+  padding: 0.9rem 1rem;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  color: var(--dark-blue);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.match-item:hover:not(:disabled) {
+  border-color: #3974d8;
+  background: #edf5ff;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 14px rgba(37, 99, 235, 0.08);
+}
+
+.match-item:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.match-item.selected {
+  border-color: #2563eb;
+  background: #dcecff;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.12),
+    0 5px 14px rgba(37, 99, 235, 0.08);
+}
+
+.match-item.matched {
+  border-color: #54b889;
+  background: #e9f9f0;
+
+  color: #218257;
+
+  cursor: default;
+}
+
+.match-item:disabled {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   LEVEL 1 - GARIS
+========================================================= */
+
+.matching-lines {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+
+  padding-top: 2.3rem;
+}
+
+.line {
+  height: 3px;
+  width: 100%;
+
+  background: #d7e3f4;
+
+  border-radius: 10px;
+
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.line-active {
+  background: #3b82f6;
+
+  box-shadow:
+    0 0 8px rgba(59, 130, 246, 0.35);
+}
+
+
+/* =========================================================
+   FEEDBACK SEMUA LEVEL
+========================================================= */
+
+.game-feedback {
+  margin-top: 1.5rem;
+
+  padding: 1rem 1.2rem;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+  line-height: 1.5;
+
+  animation: feedbackAppear 0.25s ease;
+}
+
+.game-feedback.wrong {
+  background: #fff0f0;
+  border: 1px solid #ffd1d1;
+
+  color: #c73737;
+}
+
+.game-feedback.correct {
+  background: #eaf9f0;
+  border: 1px solid #c7efd9;
+
+  color: #218257;
+}
+
+@keyframes feedbackAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   GAME ACTIONS
+========================================================= */
+
+.game-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 1.5rem;
+}
+
+
+/* =========================================================
+   ULANGI GAME
+========================================================= */
+
+.reset-game {
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  height: 42px;
+
+  padding: 0 16px;
+
+  margin: 0;
+
+  border: 1px solid #cbdaf0;
+  border-radius: 10px;
+
+  background: #f7faff;
+  color: var(--dark-blue);
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reset-game:hover {
+  background: #edf5ff;
+
+  border-color: #9ebce8;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 10px rgba(57, 116, 216, 0.08);
+}
+
+.reset-game:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   LANJUT LEVEL
+========================================================= */
+
+.next-level {
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  height: 42px;
+
+  padding: 0 17px;
+
+  margin: 0;
+
+  border: 1px solid #3974d8;
+  border-radius: 10px;
+
+  background: #3974d8;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.next-level:hover {
+  background: #2f65bd;
+
+  border-color: #2f65bd;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 12px rgba(57, 116, 216, 0.2);
+}
+
+.next-level:active {
+  transform: translateY(0);
+
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   =========================================================
+   LEVEL 2
+   Fungsi Perangkat I/O
+   =========================================================
+   ========================================================= */
+
+.level2-status {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.level2-status-item {
+  background: #f8fbff;
+
+  border: 1px solid #d8e5f7;
+
+  border-radius: 14px;
+
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  text-align: center;
+
+  transition: 0.2s ease;
+}
+
+.level2-status-item:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.06);
+}
+
+.status-label {
+  font-size: 0.8rem;
+
+  color: var(--text-muted);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.level2-status-item strong {
+  color: var(--dark-blue);
+
+  font-size: 1.05rem;
+}
+
+
+/* =========================================================
+   LEVEL 2 - QUIZ
+========================================================= */
+
+.level2-quiz {
+  margin-top: 2rem;
+}
+
+
+/* =========================================================
+   LEVEL 2 - DEVICE CARD
+========================================================= */
+
+.level2-device-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 1.5rem;
+
+  padding: 1.5rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef6ff,
+      #f8fbff
+    );
+
+  border: 2px solid #cfe1fa;
+
+  border-radius: 18px;
+
+  margin-bottom: 2rem;
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.05);
+}
+
+.level2-device-icon {
+  width: 90px;
+  height: 90px;
+
+  flex-shrink: 0;
+
+  border-radius: 18px;
+
+  background: white;
+
+  border: 1px solid #d7e4f5;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 3rem;
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.08);
+}
+
+.level2-device-info {
+  flex: 1;
+}
+
+.level2-question-label {
+  font-size: 0.75rem;
+
+  font-weight: 700;
+
+  color: #3974d8;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+.level2-device-info h2 {
+  margin: 5px 0;
+
+  color: var(--dark-blue);
+
+  font-size: 1.7rem;
+}
+
+.level2-device-info p {
+  margin: 0;
+
+  color: var(--text-muted);
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   LEVEL 2 - ANSWER
+========================================================= */
+
+.level2-answer-section h3 {
+  color: var(--dark-blue);
+
+  margin-bottom: 1rem;
+}
+
+.level2-options {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 1rem;
+}
+
+.level2-option {
+  min-height: 85px;
+
+  padding: 1rem 1.2rem;
+
+  border: 2px solid #c5d6ee;
+
+  background: #f8fbff;
+
+  border-radius: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+
+  text-align: left;
+
+  color: var(--dark-blue);
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.level2-option:hover:not(:disabled) {
+  border-color: #3974d8;
+
+  background: #edf5ff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.08);
+}
+
+.level2-option:disabled {
+  cursor: default;
+}
+
+
+/* =========================================================
+   LEVEL 2 - NOMOR JAWABAN
+========================================================= */
+
+.option-number {
+  width: 35px;
+  height: 35px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #e4efff;
+
+  color: #3974d8;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+}
+
+.option-text {
+  flex: 1;
+
+  line-height: 1.4;
+}
+
+.option-icon {
+  font-size: 1.3rem;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   LEVEL 2 - BENAR
+========================================================= */
+
+.level2-option.option-correct {
+  border-color: #54b889;
+
+  background: #e9f9f0;
+
+  color: #218257;
+}
+
+.level2-option.option-correct .option-number {
+  background: #54b889;
+
+  color: white;
+}
+
+
+/* =========================================================
+   LEVEL 2 - SALAH
+========================================================= */
+
+.level2-option.option-wrong {
+  border-color: #d85b5b;
+
+  background: #fff0f0;
+
+  color: #c73737;
+}
+
+.level2-option.option-wrong .option-number {
+  background: #d85b5b;
+
+  color: white;
+}
+
+
+/* =========================================================
+   LEVEL 2 - RESULT
+========================================================= */
+
+.level2-result {
+  text-align: center;
+
+  padding: 2.5rem 1rem 1rem;
+}
+
+.level2-result-icon {
+  font-size: 4rem;
+
+  margin-bottom: 1rem;
+}
+
+.level2-result h2 {
+  color: var(--dark-blue);
+
+  margin-bottom: 0.5rem;
+}
+
+.level2-result p {
+  max-width: 600px;
+
+  margin: 0 auto 1.5rem;
+
+  color: var(--text-muted);
+
+  line-height: 1.6;
+}
+
+.level2-final-score {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  margin-bottom: 1.5rem;
+
+  color: var(--text-muted);
+}
+
+.level2-final-score strong {
+  font-size: 2rem;
+
+  color: var(--dark-blue);
+}
+
+
+/* =========================================================
+   =========================================================
+   LEVEL 3
+   Analisis Alur Input → Proses → Output
+   =========================================================
+   ========================================================= */
+
+.level3-status {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+.level3-status-item {
+  padding: 1rem;
+
+  background: #f8fbff;
+
+  border: 1px solid #d8e5f7;
+
+  border-radius: 14px;
+
+  text-align: center;
+
+  transition: 0.2s ease;
+}
+
+.level3-status-item:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.06);
+}
+
+.level3-status-item span {
+  display: block;
+
+  font-size: 0.75rem;
+
+  color: var(--text-muted);
+
+  margin-bottom: 5px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.level3-status-item strong {
+  color: var(--dark-blue);
+
+  font-size: 1rem;
+}
+
+.level3-status-item small {
+  color: var(--text-muted);
+
+  font-size: 0.85rem;
+}
+
+
+/* =========================================================
+   LEVEL 3 - PROGRESS
+========================================================= */
+
+.level3-progress {
+  width: 100%;
+
+  height: 8px;
+
+  background: #e7eef8;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  margin-bottom: 1.5rem;
+}
+
+.level3-progress-bar {
+  height: 100%;
+
+  background: #3974d8;
+
+  border-radius: 10px;
+
+  transition: width 0.4s ease;
+}
+
+
+/* =========================================================
+   LEVEL 3 - START SCREEN
+========================================================= */
+
+.level3-start {
+  text-align: center;
+
+  padding: 2rem 1rem;
+}
+
+.level3-start-icon {
+  width: 90px;
+  height: 90px;
+
+  margin: 0 auto 1rem;
+
+  border-radius: 24px;
+
+  background: #edf5ff;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 3.2rem;
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.08);
+}
+
+.level3-start h2 {
+  color: var(--dark-blue);
+
+  margin-bottom: 0.7rem;
+}
+
+.level3-start > p {
+  max-width: 620px;
+
+  margin: 0 auto 1.5rem;
+
+  color: var(--text-muted);
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   LEVEL 3 - RULES
+========================================================= */
+
+.level3-rules {
+  max-width: 650px;
+
+  margin: 0 auto 2rem;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 1rem;
+}
+
+.level3-rule {
+  padding: 1rem;
+
+  border: 1px solid #d8e5f7;
+
+  background: #f8fbff;
+
+  border-radius: 14px;
+
+  transition: 0.2s ease;
+}
+
+.level3-rule:hover {
+  transform: translateY(-2px);
+
+  border-color: #b7d0f1;
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.06);
+}
+
+.level3-rule > span {
+  display: block;
+
+  font-size: 1.7rem;
+
+  margin-bottom: 0.5rem;
+}
+
+.level3-rule strong,
+.level3-rule small {
+  display: block;
+}
+
+.level3-rule strong {
+  color: var(--dark-blue);
+
+  margin-bottom: 4px;
+}
+
+.level3-rule small {
+  color: var(--text-muted);
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   LEVEL 3 - START BUTTON
+========================================================= */
+
+.level3-start-button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  padding: 0.8rem 1.5rem;
+
+  border: 1px solid var(--dark-blue);
+
+  border-radius: 10px;
+
+  background: var(--dark-blue);
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 0.95rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.level3-start-button:hover {
+  transform: translateY(-2px);
+
+  opacity: 0.92;
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.16);
+}
+
+
+/* =========================================================
+   LEVEL 3 - CASE
+========================================================= */
+
+.level3-case-card {
+  padding: 1.5rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eef6ff,
+      #f8fbff
+    );
+
+  border: 2px solid #cfe1fa;
+
+  border-radius: 18px;
+
+  margin: 1.5rem 0;
+
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.05);
+}
+
+.level3-case-number {
+  display: inline-block;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #dcecff;
+
+  color: #3974d8;
+
+  font-size: 0.75rem;
+
+  font-weight: 700;
+
+  margin-bottom: 0.8rem;
+}
+
+.level3-case-card h2 {
+  color: var(--dark-blue);
+
+  margin-bottom: 0.5rem;
+}
+
+.level3-case-card p {
+  color: var(--text-muted);
+
+  line-height: 1.6;
+
+  margin-bottom: 1rem;
+}
+
+.level3-question {
+  padding: 0.8rem 1rem;
+
+  background: white;
+
+  border-radius: 10px;
+
+  color: var(--dark-blue);
+
+  font-weight: 600;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   LEVEL 3 - OPTIONS
+========================================================= */
+
+.level3-options {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+.level3-option {
+  position: relative;
+
+  width: 100%;
+
+  padding: 1.2rem;
+
+  border: 2px solid #c5d6ee;
+
+  border-radius: 15px;
+
+  background: #f8fbff;
+
+  color: var(--dark-blue);
+
+  cursor: pointer;
+
+  text-align: left;
+
+  font-family: inherit;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.level3-option:hover:not(:disabled) {
+  border-color: #3974d8;
+
+  background: #edf5ff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.08);
+}
+
+.level3-option:disabled {
+  cursor: default;
+}
+
+.level3-option-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 1rem;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   LEVEL 3 - OPTION NUMBER
+========================================================= */
+
+.level3-option-number {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #e4efff;
+
+  color: #3974d8;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+}
+
+.level3-sequence {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  padding-left: 42px;
+}
+
+.level3-sequence-step {
+  padding: 7px 10px;
+
+  background: white;
+
+  border: 1px solid #c9ddf8;
+
+  border-radius: 8px;
+
+  color: var(--dark-blue);
+
+  font-size: 0.88rem;
+}
+
+.level3-arrow {
+  color: #3974d8;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   LEVEL 3 - CORRECT
+========================================================= */
+
+.level3-option-correct {
+  border-color: #54b889;
+
+  background: #e9f9f0;
+}
+
+.level3-option-correct .level3-option-number {
+  background: #54b889;
+
+  color: white;
+}
+
+
+/* =========================================================
+   LEVEL 3 - WRONG
+========================================================= */
+
+.level3-option-wrong {
+  border-color: #d85b5b;
+
+  background: #fff0f0;
+}
+
+.level3-option-wrong .level3-option-number {
+  background: #d85b5b;
+
+  color: white;
+}
+
+
+/* =========================================================
+   LEVEL 3 - ANSWER ICON
+========================================================= */
+
+.level3-answer-icon {
+  position: absolute;
+
+  right: 18px;
+  top: 18px;
+
+  font-size: 1.4rem;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   LEVEL 3 - RESULT
+========================================================= */
+
+.level3-result {
+  text-align: center;
+
+  padding: 2rem 1rem;
+}
+
+.level3-result-icon {
+  font-size: 4rem;
+
+  margin-bottom: 1rem;
+}
+
+.level3-result h2 {
+  color: var(--dark-blue);
+
+  margin-bottom: 0.5rem;
+}
+
+.level3-result > p {
+  max-width: 600px;
+
+  margin: 0 auto 1.5rem;
+
+  color: var(--text-muted);
+
+  line-height: 1.6;
+}
+
+.level3-final-score {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  margin-bottom: 1rem;
+}
+
+.level3-final-score span {
+  color: var(--text-muted);
+}
+
+.level3-final-score strong {
+  font-size: 2.5rem;
+
+  color: var(--dark-blue);
+}
+
+.level3-score-message {
+  margin: 1rem auto 1.5rem;
+
+  padding: 0.8rem 1rem;
+
+  max-width: 500px;
+
+  border-radius: 10px;
+
+  background: #eef6ff;
+
+  color: var(--dark-blue);
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   LEVEL 3 - CELEBRATION CONTAINER
+========================================================= */
+
+.level3-confetti {
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  overflow: hidden;
+
+  z-index: 1000;
+}
+
+
+/* =========================================================
+   CONFETTI LAMA
+   Tetap disediakan supaya kode lama tidak error.
+========================================================= */
+
+.confetti-piece {
+  position: absolute;
+
+  top: -60px;
+
+  left: calc((var(--i) * 3.2%) + 1%);
+
+  font-size: 1.8rem;
+
+  animation:
+    confettiFall 3.2s ease-in-out infinite;
+
+  animation-delay:
+    calc(var(--i) * 0.08s);
+}
+
+@keyframes confettiFall {
+  0% {
+    transform:
+      translateY(-60px)
+      rotate(0deg)
+      scale(0.7);
+
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    transform:
+      translateY(105vh)
+      rotate(360deg)
+      scale(1);
+
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   BUTTON UMUM UNTUK LEVEL 2 / 3
+========================================================= */
+
+.level2-result button,
+.level3-result button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  font-family: inherit;
+}
+
+
+/* =========================================================
+   RESPONSIVE LEVEL 1
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .game-page {
+    padding: 2rem 0;
+  }
+
+  .game-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .matching-area {
+    grid-template-columns: 1fr;
+  }
+
+  .matching-lines {
+    display: none;
+  }
+
+  .matching-column h3 {
+    margin-top: 1rem;
+  }
+
+  .match-item {
+    min-height: 58px;
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE LEVEL 2
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .level2-status {
+    grid-template-columns: 1fr;
+  }
+
+  .level2-device-card {
+    flex-direction: column;
+
+    text-align: center;
+  }
+
+  .level2-options {
+    grid-template-columns: 1fr;
+  }
+
+  .level2-device-info h2 {
+    font-size: 1.4rem;
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE LEVEL 3
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .level3-status {
+    grid-template-columns: 1fr;
+  }
+
+  .level3-rules {
+    grid-template-columns: 1fr;
+  }
+
+  .level3-sequence {
+    padding-left: 0;
+  }
+
+  .level3-option {
+    padding: 1rem;
+  }
+
+  .level3-case-card {
+    padding: 1.2rem;
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE BUTTON
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .game-actions {
+    width: 100%;
+  }
+
+  .reset-game,
+  .next-level {
+    flex: 1;
+
+    min-width: 140px;
+  }
+
+}

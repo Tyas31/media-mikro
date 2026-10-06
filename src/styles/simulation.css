@@ -1,0 +1,628 @@
+/* =========================================
+   SIMULATION PAGE
+========================================= */
+
+.simulation-page {
+  padding: 3rem 0 5rem;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.simulation-header {
+  margin-bottom: 2rem;
+}
+
+.simulation-header h1 {
+  margin: 0 0 0.5rem;
+
+  font-size: 2rem;
+  color: var(--dark-blue);
+}
+
+.simulation-header p {
+  margin: 0;
+
+  max-width: 850px;
+
+  color: var(--text-muted);
+
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.simulation-description {
+  margin: 0 0 1.5rem;
+
+  color: var(--text-muted);
+
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   DEVICE GRID
+========================================= */
+
+.simulation-device-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 1.25rem;
+}
+
+
+/* =========================================
+   DEVICE CARD
+========================================= */
+
+.simulation-device {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 1.6rem 1rem;
+
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius);
+
+  background: white;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.simulation-device:hover:not(:disabled) {
+  transform: translateY(-4px);
+
+  border-color: var(--primary-blue);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.simulation-device:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.45;
+}
+
+.simulation-device.selected {
+  border-color: var(--primary-blue);
+
+  background: var(--light-blue);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================
+   DEVICE ICON
+========================================= */
+
+.simulation-device-icon {
+  margin-bottom: 0.75rem;
+
+  font-size: 2.8rem;
+}
+
+.simulation-device strong {
+  color: var(--dark-blue);
+
+  font-size: 0.95rem;
+}
+
+.simulation-device small {
+  margin-top: 0.35rem;
+
+  color: var(--text-muted);
+
+  font-size: 0.78rem;
+}
+
+
+/* =========================================
+   SELECTED LABEL
+========================================= */
+
+.simulation-selected {
+  margin-top: 0.75rem;
+
+  padding: 0.3rem 0.7rem;
+
+  border-radius: 999px;
+
+  background: var(--success-green);
+
+  color: white;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   SELECTION FEEDBACK
+========================================= */
+
+.simulation-selection-feedback {
+  margin-top: 1.25rem;
+
+  padding: 0.85rem 1rem;
+
+  border-radius: var(--radius);
+
+  background: var(--light-blue);
+
+  color: var(--dark-blue);
+
+  text-align: center;
+
+  font-size: 0.9rem;
+}
+
+.simulation-selection-feedback strong {
+  font-weight: 800;
+}
+
+
+/* =========================================
+   WARNING
+========================================= */
+
+.simulation-warning {
+  margin-bottom: 1.25rem;
+
+  padding: 0.9rem 1rem;
+
+  border-radius: var(--radius);
+
+  background: #fff8df;
+
+  color: #8a6500;
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================================
+   EMPTY FLOW
+========================================= */
+
+.simulation-empty-flow {
+  padding: 3rem 1rem;
+
+  text-align: center;
+
+  border: 2px dashed var(--border-color);
+
+  border-radius: var(--radius);
+}
+
+.simulation-empty-icon {
+  margin-bottom: 0.75rem;
+
+  font-size: 3rem;
+}
+
+.simulation-empty-flow h3 {
+  margin: 0 0 0.5rem;
+
+  color: var(--dark-blue);
+}
+
+.simulation-empty-flow p {
+  margin: 0 auto;
+
+  max-width: 550px;
+
+  color: var(--text-muted);
+
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   FLOW
+========================================= */
+
+.simulation-flow {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 1rem;
+
+  margin: 2rem 0;
+
+  padding: 1rem 0;
+
+  border-radius: var(--radius);
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    padding 0.3s ease;
+}
+
+
+/* =========================================
+   FLOW - BENAR
+========================================= */
+
+.simulation-flow.flow-correct {
+  padding: 1.25rem;
+
+  background: #eaf8ef;
+
+  border: 2px solid var(--success-green);
+}
+
+
+/* =========================================
+   FLOW - SALAH
+========================================= */
+
+.simulation-flow.flow-wrong {
+  padding: 1.25rem;
+
+  background: #fff0f0;
+
+  border: 2px solid #e05252;
+}
+
+
+/* =========================================
+   FLOW NODE
+========================================= */
+
+.simulation-flow-node {
+  flex: 1;
+
+  min-height: 155px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1.25rem;
+
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius);
+
+  background: white;
+
+  text-align: center;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.simulation-flow-node.active {
+  border-color: var(--primary-blue);
+
+  background: var(--light-blue);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.simulation-flow-node.simulation-os {
+  border-color: #b9c7df;
+}
+
+.simulation-flow-icon {
+  margin-bottom: 0.6rem;
+
+  font-size: 2.6rem;
+}
+
+.simulation-flow-label {
+  margin-bottom: 0.3rem;
+
+  color: var(--text-muted);
+
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.simulation-flow-node strong {
+  color: var(--dark-blue);
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================================
+   FLOW ARROW
+========================================= */
+
+.simulation-flow-arrow {
+  flex-shrink: 0;
+
+  color: var(--primary-blue);
+
+  font-size: 2.2rem;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   CHECK BUTTON
+========================================= */
+
+.simulation-check-wrapper {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 1.5rem;
+}
+
+.simulation-check-button {
+  min-width: 190px;
+
+  padding: 0.9rem 1.5rem;
+
+  border: none;
+  border-radius: var(--radius);
+
+  background: var(--primary-blue);
+
+  color: white;
+
+  font-size: 0.95rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 15px rgba(0, 0, 0, 0.1);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.simulation-check-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 9px 20px rgba(0, 0, 0, 0.14);
+}
+
+.simulation-check-button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   RESULT
+========================================= */
+
+.simulation-result {
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+
+  margin-top: 1.5rem;
+
+  padding: 1.25rem;
+
+  border-radius: var(--radius);
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+/* =========================================
+   RESULT - BENAR
+========================================= */
+
+.simulation-result-correct {
+  background: #eaf8ef;
+
+  border: 2px solid var(--success-green);
+
+  color: var(--success-green);
+}
+
+
+/* =========================================
+   RESULT - SALAH
+========================================= */
+
+.simulation-result-wrong {
+  background: #fff0f0;
+
+  border: 2px solid #e05252;
+
+  color: #d94b4b;
+}
+
+
+/* =========================================
+   RESULT ICON
+========================================= */
+
+.simulation-result-icon {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  font-size: 1.6rem;
+  font-weight: 900;
+}
+
+.simulation-result-correct .simulation-result-icon {
+  color: var(--success-green);
+}
+
+.simulation-result-wrong .simulation-result-icon {
+  color: #d94b4b;
+}
+
+
+/* =========================================
+   RESULT TEXT
+========================================= */
+
+.simulation-result strong {
+  display: block;
+
+  margin-bottom: 0.3rem;
+
+  font-size: 1rem;
+}
+
+.simulation-result p {
+  margin: 0;
+
+  color: var(--text-dark);
+
+  font-size: 0.9rem;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+.simulation-actions {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 1.5rem;
+}
+
+.simulation-reset-button {
+  padding: 0.85rem 1.5rem;
+
+  border: none;
+  border-radius: var(--radius);
+
+  background: #f1f3f6;
+
+  color: var(--text-dark);
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.simulation-reset-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .simulation-device-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .simulation-flow {
+    flex-direction: column;
+  }
+
+  .simulation-flow-node {
+    width: 100%;
+  }
+
+  .simulation-flow-arrow {
+    transform: rotate(90deg);
+  }
+
+  .simulation-flow.flow-correct,
+  .simulation-flow.flow-wrong {
+    padding: 1rem;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .simulation-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .simulation-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .simulation-device-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .simulation-flow {
+    gap: 0.75rem;
+  }
+
+  .simulation-flow-node {
+    min-height: 140px;
+  }
+
+  .simulation-flow-arrow {
+    font-size: 1.8rem;
+  }
+
+  .simulation-check-button {
+    width: 100%;
+  }
+
+  .simulation-result {
+    align-items: flex-start;
+  }
+}

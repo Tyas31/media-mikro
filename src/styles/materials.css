@@ -1,0 +1,313 @@
+/* Materials Microlearning Styling */
+.materials-page {
+  padding: 2.5rem 1.5rem 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.materials-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.materials-title {
+  font-size: 2.25rem;
+  color: var(--dark-blue);
+  margin-bottom: 0.5rem;
+}
+
+.materials-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+/* Microlearning Navigation & Progress Header */
+.materials-progress-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.materials-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--dark-blue);
+}
+
+.section-tabs-nav {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  margin-top: 1rem;
+  scrollbar-width: thin;
+}
+
+.section-tab-btn {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-full);
+  background-color: var(--light-blue);
+  color: var(--text-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.section-tab-btn:hover {
+  background-color: #dbeafe;
+  color: var(--primary-blue);
+}
+
+.section-tab-btn.active {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border-color: var(--primary-blue);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.section-tab-btn.completed-tab {
+  border-color: var(--success-green);
+}
+
+/* Section Card Content Box */
+.section-content-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+  min-height: 420px;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  background-color: var(--light-blue);
+  color: var(--primary-blue);
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.section-heading {
+  font-size: 1.75rem;
+  color: var(--dark-blue);
+  margin-bottom: 1.25rem;
+  line-height: 1.35;
+}
+
+.concept-text {
+  font-size: 1.05rem;
+  color: var(--text-dark);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* Interactive Device Cards Grid */
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.device-card {
+  background-color: var(--white);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.device-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-blue);
+  box-shadow: var(--shadow-md);
+}
+
+.device-card.selected {
+  border-color: var(--primary-blue);
+  background-color: var(--light-blue);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
+}
+
+.device-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background-color: var(--light-blue);
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  transition: transform 0.2s ease;
+}
+
+.device-card:hover .device-icon-box {
+  transform: scale(1.1);
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.device-card.selected .device-icon-box {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.device-card h4 {
+  font-size: 1.1rem;
+  color: var(--dark-blue);
+}
+
+/* Selected Device Detail Popup/Panel */
+.device-detail-box {
+  background-color: var(--light-blue);
+  border: 1px solid var(--border-color);
+  border-left: 5px solid var(--primary-blue);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Comparison Cards (Input vs Output) */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.comparison-box {
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.comparison-box.input-box {
+  background-color: #eff6ff;
+  border: 2px solid #bfdbfe;
+}
+
+.comparison-box.output-box {
+  background-color: #f0fdf4;
+  border: 2px solid #bbf7d0;
+}
+
+.comparison-box h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.comparison-box.input-box h4 {
+  color: var(--primary-blue);
+}
+
+.comparison-box.output-box h4 {
+  color: var(--success-green);
+}
+
+/* Analogy Card */
+.analogy-card {
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+  border: 2px dashed #93c5fd;
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  margin: 1.5rem 0;
+}
+
+.analogy-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+/* Highlighted Concept Banner */
+.highlight-banner {
+  background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow-md);
+}
+
+/* Navigation Buttons Footer Bar */
+.materials-nav-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Completion Card Banner */
+.completion-banner {
+  background-color: #ecfdf5;
+  border: 2px solid #a7f3d0;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.completion-banner h3 {
+  color: var(--success-green);
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.completion-banner p {
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .materials-page {
+    padding: 1.5rem 1rem 3rem;
+  }
+  .section-content-card {
+    padding: 1.5rem 1.25rem;
+  }
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  .device-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .materials-title {
+    font-size: 1.75rem;
+  }
+}

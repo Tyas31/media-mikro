@@ -1,0 +1,547 @@
+/* =========================================
+   EVALUATION PAGE
+========================================= */
+
+.evaluation-page {
+  padding: 2.5rem 0 5rem;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.evaluation-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
+  margin-bottom: 2rem;
+}
+
+.evaluation-header-icon {
+  width: 76px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 22px;
+
+  background: var(--light-blue);
+
+  font-size: 2.4rem;
+}
+
+.evaluation-header h1 {
+  margin: 0 0 0.4rem;
+
+  color: var(--dark-blue);
+
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+
+.evaluation-header p {
+  margin: 0;
+
+  color: var(--text-muted);
+
+  font-size: 1rem;
+}
+
+
+/* =========================================
+   PROGRESS
+========================================= */
+
+.evaluation-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 1.25rem;
+
+  padding: 0 0.5rem;
+}
+
+.evaluation-progress > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.evaluation-progress span {
+  color: var(--text-muted);
+
+  font-size: 0.95rem;
+}
+
+.evaluation-progress strong {
+  color: var(--primary-blue);
+
+  font-size: 1.25rem;
+}
+
+.evaluation-progress small {
+  color: var(--text-muted);
+
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.evaluation-score {
+  color: #d49a00;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   QUESTION CARD
+========================================= */
+
+.evaluation-card {
+  padding: 1.5rem;
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 20px;
+
+  background: white;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+
+/* =========================================
+   QUESTION HEADING
+========================================= */
+
+.evaluation-question-heading {
+  display: flex;
+  align-items: center;
+
+  gap: 1rem;
+
+  margin-bottom: 1.25rem;
+}
+
+.question-number {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 15px;
+
+  background: var(--light-blue);
+
+  color: var(--primary-blue);
+
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.evaluation-question-heading span {
+  display: block;
+
+  margin-bottom: 0.25rem;
+
+  color: var(--primary-blue);
+
+  font-size: 0.72rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+}
+
+.evaluation-question-heading h2 {
+  margin: 0;
+
+  color: var(--dark-blue);
+
+  font-size: 1.2rem;
+
+  line-height: 1.45;
+}
+
+
+/* =========================================
+   OPTIONS
+========================================= */
+
+.evaluation-options {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 0.8rem;
+}
+
+.evaluation-option {
+  position: relative;
+
+  min-height: 68px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.8rem;
+
+  padding: 0.8rem 1rem;
+
+  border: 2px solid #dbe6f5;
+
+  border-radius: 14px;
+
+  background: white;
+
+  color: var(--text-dark);
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.evaluation-option:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  border-color: var(--primary-blue);
+
+  background: var(--light-blue);
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+}
+
+.evaluation-option:disabled {
+  cursor: default;
+}
+
+.evaluation-option-letter {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: #f1f4f8;
+
+  color: var(--dark-blue);
+
+  font-weight: 800;
+}
+
+.evaluation-option-text {
+  flex: 1;
+
+  font-size: 0.9rem;
+
+  line-height: 1.45;
+}
+
+.evaluation-option-status {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   CORRECT / WRONG
+========================================= */
+
+.evaluation-option.correct {
+  border-color: var(--success-green);
+
+  background: #eaf8ef;
+}
+
+.evaluation-option.correct .evaluation-option-letter {
+  background: var(--success-green);
+
+  color: white;
+}
+
+.evaluation-option.wrong {
+  border-color: #e05252;
+
+  background: #fff0f0;
+}
+
+.evaluation-option.wrong .evaluation-option-letter {
+  background: #e05252;
+
+  color: white;
+}
+
+
+/* =========================================
+   FEEDBACK
+========================================= */
+
+.evaluation-feedback {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 1rem;
+
+  margin-top: 1.25rem;
+
+  padding: 1rem 1.15rem;
+
+  border-radius: 15px;
+}
+
+.evaluation-feedback.success {
+  background: #eaf8ef;
+
+  border: 1px solid #b9e8c8;
+}
+
+.evaluation-feedback.error {
+  background: #fff0f0;
+
+  border: 1px solid #f4c1c1;
+}
+
+.evaluation-feedback-icon {
+  font-size: 1.7rem;
+}
+
+.evaluation-feedback strong {
+  display: block;
+
+  margin-bottom: 0.25rem;
+
+  font-size: 1rem;
+}
+
+.evaluation-feedback.success strong {
+  color: var(--success-green);
+}
+
+.evaluation-feedback.error strong {
+  color: #d94b4b;
+}
+
+.evaluation-feedback p {
+  margin: 0;
+
+  color: var(--text-dark);
+
+  font-size: 0.88rem;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   ACTION
+========================================= */
+
+.evaluation-action {
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin-top: 1.25rem;
+}
+
+.evaluation-next {
+  padding: 0.8rem 1.25rem;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: var(--primary-blue);
+
+  color: white;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.evaluation-next:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================
+   FINAL RESULT
+========================================= */
+
+.evaluation-final {
+  max-width: 650px;
+
+  margin: 2rem auto;
+
+  padding: 3rem 2rem;
+
+  border: 1px solid var(--border-color);
+
+  border-radius: 24px;
+
+  background: white;
+
+  text-align: center;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.evaluation-final-icon {
+  margin-bottom: 1rem;
+
+  font-size: 4rem;
+}
+
+.evaluation-final h1 {
+  margin: 0 0 0.5rem;
+
+  color: var(--dark-blue);
+
+  font-size: 1.8rem;
+}
+
+.evaluation-final > p {
+  margin: 0 auto 1.5rem;
+
+  color: var(--text-muted);
+
+  line-height: 1.6;
+}
+
+.evaluation-final-score {
+  display: inline-flex;
+  flex-direction: column;
+
+  gap: 0.2rem;
+
+  margin-bottom: 1.25rem;
+
+  padding: 1rem 2rem;
+
+  border-radius: 16px;
+
+  background: var(--light-blue);
+}
+
+.evaluation-final-score span {
+  color: var(--text-muted);
+
+  font-size: 0.85rem;
+}
+
+.evaluation-final-score strong {
+  color: var(--primary-blue);
+
+  font-size: 2rem;
+}
+
+.evaluation-final-message {
+  margin-bottom: 1.5rem;
+
+  padding: 1rem;
+
+  border-radius: 14px;
+
+  background: #f7f9fc;
+
+  color: var(--text-dark);
+
+  font-size: 0.9rem;
+}
+
+.evaluation-restart {
+  padding: 0.85rem 1.5rem;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: var(--primary-blue);
+
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+  .evaluation-page {
+    padding: 2rem 0 3rem;
+  }
+
+  .evaluation-header {
+    align-items: flex-start;
+  }
+
+  .evaluation-header-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 1.8rem;
+  }
+
+  .evaluation-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .evaluation-progress {
+    padding: 0;
+  }
+
+  .evaluation-card {
+    padding: 1.1rem;
+  }
+
+  .evaluation-options {
+    grid-template-columns: 1fr;
+  }
+
+  .evaluation-option {
+    min-height: 60px;
+  }
+
+  .evaluation-action {
+    justify-content: stretch;
+  }
+
+  .evaluation-next {
+    width: 100%;
+  }
+}
