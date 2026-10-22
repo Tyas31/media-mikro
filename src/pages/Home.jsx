@@ -86,31 +86,6 @@ export default function Home({
             dalam sebuah sistem komputer.
           </p>
 
-          {/* Kasus Pemantik */}
-          <div className="home-case-prompt">
-            <strong>
-              🔎 Kasus Pemantik: Huruf Rani Tidak Muncul
-            </strong>
-
-            <p>
-              Rani sedang mengetik tugas menggunakan keyboard.
-              Namun, huruf yang ditekan tidak muncul pada dokumen,
-              padahal aplikasi pengolah kata masih terbuka.
-            </p>
-
-            <p>
-              Menurutmu, apa yang mungkin menyebabkan masalah
-              tersebut? Apakah masalahnya ada pada keyboard,
-              sistem operasi, aplikasi, atau perangkat output?
-            </p>
-
-            <p>
-              Amati materi dan alur komunikasi I/O pada website ini.
-              Catat informasi penting, hasil analisis, dan solusi
-              yang kamu temukan pada LKPD cetak.
-            </p>
-          </div>
-
           <div className="hero-actions">
             <Button
               size="lg"
