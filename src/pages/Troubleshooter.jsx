@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { troubleshootingCases } from '../data/TroubleshootingCases';
+import { troubleshootingCases } from '../data/troubleshootingCases.js';
 import { playSound } from '../utils/audio';
 import '../styles/troubleshooter.css';
 
