@@ -626,3 +626,98 @@
     align-items: flex-start;
   }
 }
+
+
+/* ========================================
+   PERBAIKAN TOMBOL SIMULASI I/O
+======================================== */
+
+/* Tata letak tombol */
+.simulation-page .simulation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+/* Style dasar tombol simulasi */
+.simulation-page .simulation-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Tombol utama */
+.simulation-page .simulation-actions .simulation-check-button {
+  background-color: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+/* Tombol sekunder */
+.simulation-page .simulation-actions .simulation-reset-button {
+  background-color: #ffffff;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+/* Hover */
+.simulation-page .simulation-actions button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.simulation-page .simulation-actions .simulation-check-button:not(:disabled):hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.simulation-page .simulation-actions .simulation-reset-button:not(:disabled):hover {
+  background-color: #f3f4f6;
+}
+
+/* Tombol nonaktif */
+.simulation-page .simulation-actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Fokus keyboard */
+.simulation-page .simulation-actions button:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+/* Tampilan HP */
+@media (max-width: 600px) {
+  .simulation-page .simulation-actions {
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .simulation-page .simulation-actions button {
+    flex: 1 1 140px;
+    min-width: 0;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}

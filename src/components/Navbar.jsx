@@ -13,7 +13,6 @@ export default function Navbar({ activeTab, setActiveTab, isMuted, onToggleMute 
     { id: 'simulation', label: 'Simulasi', icon: <PlayCircle size={18} /> },
     { id: 'troubleshooter', label: 'Troubleshooter', icon: <Wrench size={18} /> },
     { id: 'evaluation', label: 'Evaluasi', icon: <GraduationCap size={18} /> },
-    { id: 'results', label: 'Hasil Belajar', icon: <Award size={18} /> },
   ];
 
   const handleNavClick = (id) => {

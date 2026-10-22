@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { troubleshootingCases } from '../data/TroubleshootingCases';
 import { playSound } from '../utils/audio';
@@ -5,41 +6,68 @@ import '../styles/troubleshooter.css';
 
 export default function Troubleshooter() {
   const [currentCase, setCurrentCase] = useState(0);
+  const [currentStage, setCurrentStage] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
 
   const caseData = troubleshootingCases[currentCase];
-  const question = caseData?.stages?.[0];
+  const stages = caseData?.stages || [];
+  const question = stages[currentStage];
+
+  const totalQuestions = troubleshootingCases.reduce(
+    (total, item) => total + item.stages.length,
+    0
+  );
+
+  const finalScore =
+    totalQuestions > 0
+      ? Math.round((score / totalQuestions) * 100)
+      : 0;
+
+  const completedBefore =
+    troubleshootingCases
+      .slice(0, currentCase)
+      .reduce((total, item) => total + item.stages.length, 0) +
+    currentStage;
 
   const handleAnswer = (index) => {
-    if (showResult) return;
+    if (showResult || !question) return;
 
     setSelectedAnswer(index);
     setShowResult(true);
 
     if (index === question.correctIndex) {
-      setScore((prev) => prev + 25);
+      setScore((previous) => previous + 1);
       playSound('correct');
     } else {
       playSound('incorrect');
     }
   };
 
-  const handleNextCase = () => {
-    if (currentCase + 1 >= troubleshootingCases.length) {
-      setFinished(true);
+  const handleNext = () => {
+    if (currentStage + 1 < stages.length) {
+      setCurrentStage((previous) => previous + 1);
+      setSelectedAnswer(null);
+      setShowResult(false);
       return;
     }
 
-    setCurrentCase((prev) => prev + 1);
-    setSelectedAnswer(null);
-    setShowResult(false);
+    if (currentCase + 1 < troubleshootingCases.length) {
+      setCurrentCase((previous) => previous + 1);
+      setCurrentStage(0);
+      setSelectedAnswer(null);
+      setShowResult(false);
+      return;
+    }
+
+    setFinished(true);
   };
 
   const handleRestart = () => {
     setCurrentCase(0);
+    setCurrentStage(0);
     setSelectedAnswer(null);
     setShowResult(false);
     setScore(0);
@@ -52,25 +80,27 @@ export default function Troubleshooter() {
         <div className="troubleshooter-final">
           <div className="final-icon">🏆</div>
 
-          <h2>Semua Kasus Selesai!</h2>
+          <h2>Semua Latihan Selesai!</h2>
 
           <p>
-            Kamu sudah menyelesaikan semua studi kasus troubleshooting I/O.
+            Kamu telah menyelesaikan latihan analisis masalah
+            manajemen Input/Output.
           </p>
 
           <div className="final-score">
             <span>Skor Kamu</span>
-            <strong>
-              {score} / {troubleshootingCases.length * 25}
-            </strong>
+            <strong>{finalScore} / 100</strong>
+            <p>
+              {score} dari {totalQuestions} soal dijawab dengan benar.
+            </p>
           </div>
 
           <div className="final-message">
-            {score === troubleshootingCases.length * 25
-              ? '🔥 Sempurna! Kamu sangat memahami cara menganalisis masalah I/O.'
-              : score >= 50
-              ? '👍 Bagus! Terus latih kemampuanmu dalam menganalisis masalah I/O.'
-              : '💪 Jangan menyerah! Coba pelajari kembali materi manajemen I/O.'}
+            {finalScore === 100
+              ? '🔥 Hebat! Semua jawabanmu benar.'
+              : finalScore >= 70
+              ? '👍 Bagus! Kamu sudah memahami sebagian besar konsep I/O.'
+              : '💪 Tetap semangat! Pelajari kembali materi I/O dan coba lagi.'}
           </div>
 
           <button
@@ -84,28 +114,42 @@ export default function Troubleshooter() {
     );
   }
 
+  if (!caseData || !question || totalQuestions === 0) {
+    return (
+      <div className="troubleshooter-page">
+        <p>
+          Data kasus belum tersedia. Periksa file
+          TroubleshootingCases.js.
+        </p>
+      </div>
+    );
+  }
+
   const isCorrect =
     selectedAnswer !== null &&
     selectedAnswer === question.correctIndex;
 
+  const completedQuestions = completedBefore + (showResult ? 1 : 0);
+
+  const progress = Math.min(
+    (completedQuestions / totalQuestions) * 100,
+    100
+  );
+
   return (
     <div className="troubleshooter-page">
-      
-      {/* HEADER */}
       <div className="troubleshooter-header">
-        <div className="troubleshooter-header-icon">
-          🔧
-        </div>
+        <div className="troubleshooter-header-icon">🔧</div>
 
         <div>
           <h1>I/O Troubleshooter</h1>
           <p>
-            Jadilah teknisi dan cari tahu penyebab masalah pada perangkat I/O.
+            Telusuri alur komunikasi I/O dan analisis kemungkinan
+            penyebab gangguan.
           </p>
         </div>
       </div>
 
-      {/* PROGRESS */}
       <div className="troubleshooter-progress">
         <div className="case-progress">
           <span>Studi Kasus</span>
@@ -113,16 +157,42 @@ export default function Troubleshooter() {
             {currentCase + 1}
             <small> / {troubleshootingCases.length}</small>
           </strong>
+          <p>
+            Tahap {currentStage + 1} dari {stages.length}
+          </p>
         </div>
 
         <div className="troubleshooter-point">
-          ⭐ {score} poin
+          ⭐ {score} benar
         </div>
       </div>
 
-      {/* CASE */}
-      <section className="troubleshooter-case">
+      <div style={{ marginBottom: '1.25rem' }}>
+        <p style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+          Progres latihan: {completedQuestions} dari {totalQuestions} soal
+        </p>
 
+        <div
+          style={{
+            width: '100%',
+            height: '8px',
+            background: '#e5e7eb',
+            borderRadius: '999px',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              width: `${progress}%`,
+              height: '100%',
+              background: '#2563eb',
+              transition: 'width 0.3s ease',
+            }}
+          />
+        </div>
+      </div>
+
+      <section className="troubleshooter-case">
         <div className="case-heading">
           <div className="case-icon">
             {caseData.icon || '🛠️'}
@@ -138,28 +208,20 @@ export default function Troubleshooter() {
           <span className="problem-icon">⚠️</span>
           <p>{caseData.problem}</p>
         </div>
-
       </section>
 
-      {/* QUESTION */}
       <section className="troubleshooter-question">
-
         <div className="question-heading">
-          <div className="question-icon">
-            💡
-          </div>
+          <div className="question-icon">💡</div>
 
           <div>
-            <span>ANALISIS</span>
+            <span>TAHAP {currentStage + 1}: ANALISIS</span>
             <h2>{question.question}</h2>
           </div>
         </div>
 
-        {/* OPTIONS */}
         <div className="troubleshooter-options">
-
           {question.options.map((option, index) => {
-
             let optionClass = '';
 
             if (showResult) {
@@ -181,9 +243,7 @@ export default function Troubleshooter() {
                   {String.fromCharCode(65 + index)}
                 </span>
 
-                <span className="option-text">
-                  {option}
-                </span>
+                <span className="option-text">{option}</span>
 
                 {showResult &&
                   index === question.correctIndex && (
@@ -198,10 +258,8 @@ export default function Troubleshooter() {
               </button>
             );
           })}
-
         </div>
 
-        {/* FEEDBACK */}
         {showResult && (
           <div
             className={`troubleshooter-feedback ${
@@ -214,36 +272,33 @@ export default function Troubleshooter() {
 
             <div className="feedback-content">
               <strong>
-                {isCorrect
-                  ? 'Jawabanmu benar!'
-                  : 'Belum tepat!'}
+                {isCorrect ? 'Jawabanmu benar!' : 'Belum tepat!'}
               </strong>
 
               <p>
                 {isCorrect
-                  ? 'Analisis kamu sudah tepat. Kamu berhasil menemukan komponen yang perlu diperiksa.'
-                  : question.hint}
+                  ? question.explanation ||
+                    'Jawabanmu sesuai dengan konsep manajemen I/O.'
+                  : question.hint ||
+                    question.explanation ||
+                    'Coba pelajari kembali materi manajemen I/O.'}
               </p>
             </div>
           </div>
         )}
 
-        {/* NEXT */}
         {showResult && (
           <div className="troubleshooter-actions">
-            <button
-              className="next-button"
-              onClick={handleNextCase}
-            >
-              {currentCase + 1 >= troubleshootingCases.length
-                ? '🏆 Lihat Hasil'
-                : '➡️ Kasus Berikutnya'}
+            <button className="next-button" onClick={handleNext}>
+              {currentStage + 1 < stages.length
+                ? '➡️ Tahap Berikutnya'
+                : currentCase + 1 < troubleshootingCases.length
+                ? '➡️ Kasus Berikutnya'
+                : '🏆 Lihat Hasil'}
             </button>
           </div>
         )}
-
       </section>
-
     </div>
   );
 }

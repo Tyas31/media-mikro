@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import {
   Keyboard,
   Mouse,
@@ -12,8 +13,6 @@ import {
   CheckCircle2,
   ArrowRight,
   HardDrive,
-  Cpu,
-  LayoutGrid,
   Sparkles,
   HelpCircle,
 } from 'lucide-react';
@@ -24,531 +23,811 @@ import Diagram from '../components/Diagram';
 import { getProgress, saveProgress } from '../utils/progress';
 import '../styles/materials.css';
 
+const inputDevices = [
+  {
+    id: 'keyboard',
+    name: 'Keyboard',
+    icon: <Keyboard size={28} />,
+    func: 'Memasukkan huruf, angka, simbol, dan perintah ke komputer.',
+    example: 'Mengetik tugas menggunakan aplikasi pengolah kata.',
+  },
+  {
+    id: 'mouse',
+    name: 'Mouse',
+    icon: <Mouse size={28} />,
+    func: 'Menggerakkan pointer, memilih menu, dan menjalankan perintah.',
+    example: 'Mengklik tombol atau memilih file.',
+  },
+  {
+    id: 'scanner',
+    name: 'Scanner',
+    icon: <HardDrive size={28} />,
+    func: 'Mengubah dokumen atau gambar fisik menjadi data digital.',
+    example: 'Memindai lembar tugas menjadi file digital.',
+  },
+  {
+    id: 'microphone',
+    name: 'Microphone',
+    icon: <Mic size={28} />,
+    func: 'Memasukkan suara ke komputer.',
+    example: 'Berbicara saat rapat daring atau merekam suara.',
+  },
+];
+
+const outputDevices = [
+  {
+    id: 'monitor',
+    name: 'Monitor',
+    icon: <Monitor size={28} />,
+    func: 'Menampilkan teks, gambar, video, dan informasi visual.',
+    example: 'Melihat dokumen yang sedang diketik.',
+  },
+  {
+    id: 'printer',
+    name: 'Printer',
+    icon: <Printer size={28} />,
+    func: 'Menghasilkan keluaran berupa cetakan fisik di atas kertas.',
+    example: 'Mencetak laporan atau lembar tugas.',
+  },
+  {
+    id: 'speaker',
+    name: 'Speaker',
+    icon: <Volume2 size={28} />,
+    func: 'Menghasilkan keluaran berupa suara.',
+    example: 'Mendengarkan audio atau suara video pembelajaran.',
+  },
+];
+
+const sectionTitles = [
+  '1. Apa itu Input dan Output?',
+  '2. Perangkat Input',
+  '3. Perangkat Output',
+  '4. Mengapa I/O Perlu Dikelola?',
+  '5. Manajemen Input/Output',
+  '6. Peran Sistem Operasi',
+  '7. Alur Input',
+  '8. Alur Output',
+  '9. Contoh Permasalahan I/O',
+];
+
 export default function Materials({ setActiveTab }) {
   const [currentSection, setCurrentSection] = useState(1);
   const [completedSections, setCompletedSections] = useState([1]);
   const [selectedInputDevice, setSelectedInputDevice] = useState('keyboard');
   const [selectedOutputDevice, setSelectedOutputDevice] = useState('monitor');
 
-  const totalSections = 9;
+  const totalSections = sectionTitles.length;
 
-  // Load progress on mount
   useEffect(() => {
-    const p = getProgress();
-    const done = p.materials?.completed || [1];
-    if (!done.includes(1)) done.push(1);
-    setCompletedSections(done);
+    const progress = getProgress() || {};
+    const saved = progress.materials?.completed || [];
+    const completed = [...new Set([1, ...saved])];
+
+    setCompletedSections(completed);
+
+    if (!saved.includes(1)) {
+      saveProgress({
+        ...progress,
+        materials: {
+          ...progress.materials,
+          completed,
+          lastRead: progress.materials?.lastRead || 1,
+        },
+      });
+    }
+
+    if (
+      progress.materials?.lastRead >= 1 &&
+      progress.materials?.lastRead <= totalSections
+    ) {
+      setCurrentSection(progress.materials.lastRead);
+    }
   }, []);
 
-  // Mark section completed
   const handleSectionChange = (sectionNum) => {
     if (sectionNum < 1 || sectionNum > totalSections) return;
+
     setCurrentSection(sectionNum);
 
-    if (!completedSections.includes(sectionNum)) {
-      const updated = [...completedSections, sectionNum];
-      setCompletedSections(updated);
+    const completed = [...new Set([...completedSections, sectionNum])];
+    setCompletedSections(completed);
 
-      const p = getProgress();
-      const updatedProgress = {
-        ...p,
-        materials: {
-          ...p.materials,
-          completed: updated,
-          lastRead: sectionNum,
-        },
-      };
-      saveProgress(updatedProgress);
-    }
+    const progress = getProgress() || {};
+
+    saveProgress({
+      ...progress,
+      materials: {
+        ...progress.materials,
+        completed,
+        lastRead: sectionNum,
+      },
+    });
+
     window.scrollTo({ top: 120, behavior: 'smooth' });
   };
 
-  // Section titles
-  const sectionTitles = [
-    '1. Apa itu Input dan Output?',
-    '2. Perangkat Input',
-    '3. Perangkat Output',
-    '4. Mengapa I/O Perlu Dikelola?',
-    '5. Manajemen Input/Output',
-    '6. Peran Sistem Operasi dalam Manajemen I/O',
-    '7. Alur Input',
-    '8. Alur Output',
-    '9. Contoh Permasalahan I/O',
-  ];
-
-  // Device data dictionaries
-  const inputDevices = [
-    {
-      id: 'keyboard',
-      name: 'Keyboard',
-      icon: <Keyboard size={28} />,
-      func: 'Digunakan untuk memasukkan huruf, angka, dan perintah teks ke dalam komputer.',
-      example: 'Mengetik dokumen laporan tugas sekolah di Microsoft Word atau Google Docs.',
-    },
-    {
-      id: 'mouse',
-      name: 'Mouse',
-      icon: <Mouse size={28} />,
-      func: 'Digunakan untuk menggerakkan pointer kursor, memilih opsi, dan menjalankan perintah.',
-      example: 'Mengklik tombol menu, menggeser file, atau menggambar di aplikasi pengolah grafis.',
-    },
-    {
-      id: 'scanner',
-      name: 'Scanner',
-      icon: <HardDrive size={28} />,
-      func: 'Digunakan untuk memasukkan foto, gambar, atau dokumen fisik ke dalam bentuk file digital.',
-      example: 'Pindai lembar tugas fisik atau kartu identitas menjadi file PDF/JPEG.',
-    },
-    {
-      id: 'microphone',
-      name: 'Microphone',
-      icon: <Mic size={28} />,
-      func: 'Digunakan untuk memasukkan gelombang suara menjadi sinyal audio digital.',
-      example: 'Merekam penjelasan tugas audio atau berbicara saat rapat online di Zoom/Google Meet.',
-    },
-  ];
-
-  const outputDevices = [
-    {
-      id: 'monitor',
-      name: 'Monitor',
-      icon: <Monitor size={28} />,
-      func: 'Menampilkan visual teks, gambar, video, dan antarmuka informasi dari komputer.',
-      example: 'Melihat tampilan presentasi slide, menonton video pembelajaran, atau membaca artikel.',
-    },
-    {
-      id: 'printer',
-      name: 'Printer',
-      icon: <Printer size={28} />,
-      func: 'Menghasilkan dokumen informasi digital dalam bentuk fisik/cetakan di atas kertas.',
-      example: 'Mencetak lembar soal latihan, sertifikat prestasi, atau makalah tugas.',
-    },
-    {
-      id: 'speaker',
-      name: 'Speaker',
-      icon: <Volume2 size={28} />,
-      func: 'Menghasilkan sinyal suara audio yang dapat didengar oleh pengguna.',
-      example: 'Mendengarkan penjelasan materi berformat audio atau musik pengiring.',
-    },
-  ];
+  const renderDeviceDetails = (device) => (
+    <div className="device-detail-box animate-fade-in">
+      <h4 style={{ color: 'var(--dark-blue)', marginBottom: '0.5rem' }}>
+        {device.name}
+      </h4>
+      <p style={{ color: 'var(--text-dark)', marginBottom: '0.75rem' }}>
+        <strong>Fungsi:</strong> {device.func}
+      </p>
+      <p style={{ color: 'var(--text-muted)' }}>
+        💡 <strong>Contoh penggunaan:</strong> {device.example}
+      </p>
+    </div>
+  );
 
   return (
     <div className="materials-page animate-fade-in">
-      {/* Header */}
       <div className="materials-header">
         <h1 className="materials-title">Materi Pembelajaran I/O</h1>
         <p className="materials-subtitle">
-          Modul Microlearning Informatika Kelas X — Manajemen Sistem Input/Output
+          Informatika Kelas X — Manajemen Sistem Input/Output
         </p>
       </div>
 
-      {/* Progress Card & Section Tabs */}
       <div className="materials-progress-card">
         <div className="materials-progress-info">
-          <span>Materi {currentSection} dari {totalSections}</span>
-          <span>{Math.round((completedSections.length / totalSections) * 100)}% Selesai</span>
+          <span>
+            Materi {currentSection} dari {totalSections}
+          </span>
+          <span>
+            {Math.round(
+              (completedSections.length / totalSections) * 100
+            )}
+            % Selesai
+          </span>
         </div>
+
         <ProgressBar
           value={completedSections.length}
           max={totalSections}
           showPercentage={false}
         />
 
-        {/* Quick Navigation Tabs */}
         <div className="section-tabs-nav">
-          {sectionTitles.map((title, idx) => {
-            const secNum = idx + 1;
-            const isDone = completedSections.includes(secNum);
+          {sectionTitles.map((title, index) => {
+            const number = index + 1;
+            const isDone = completedSections.includes(number);
+
             return (
               <button
-                key={secNum}
-                className={`section-tab-btn ${currentSection === secNum ? 'active' : ''} ${
-                  isDone ? 'completed-tab' : ''
-                }`}
-                onClick={() => handleSectionChange(secNum)}
+                key={number}
+                className={`section-tab-btn ${
+                  currentSection === number ? 'active' : ''
+                } ${isDone ? 'completed-tab' : ''}`}
+                onClick={() => handleSectionChange(number)}
+                title={title}
               >
-                {isDone && <CheckCircle2 size={14} color={currentSection === secNum ? '#fff' : 'var(--success-green)'} />}
-                <span>Sec {secNum}</span>
+                {isDone && (
+                  <CheckCircle2
+                    size={14}
+                    color={
+                      currentSection === number
+                        ? '#fff'
+                        : 'var(--success-green)'
+                    }
+                  />
+                )}
+                <span>Bagian {number}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* Section Content Card */}
       <div className="section-content-card">
-        {/* SECTION 1 */}
         {currentSection === 1 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 1 DARI 9</span>
             <h2 className="section-heading">Apa itu Input dan Output?</h2>
 
-            <p className="concept-text">
-              Dalam sistem komputer, terjadi pertukaran informasi secara terus-menerus. Komputer membutuhkan perintah dari luar untuk bekerja, dan memberikan hasil pemrosesannya kembali kepada pengguna.
+            <h3 style={{ margin: '1.5rem 0 0.75rem' }}>
+              🎬 Video Pembelajaran: Mengenal Input dan Output
+            </h3>
+            <p style={{ marginBottom: '1rem' }}>
+              Simak video berikut untuk mengenal cara komputer menerima
+              masukan dan menghasilkan keluaran.
             </p>
 
-            <div style={{ display: 'grid', gap: '1.25rem', marginBottom: '1.5rem' }}>
-              <div style={{ backgroundColor: 'var(--light-blue)', padding: '1.25rem', borderRadius: 'var(--radius)', borderLeft: '4px solid var(--primary-blue)' }}>
-                <h4 style={{ color: 'var(--primary-blue)', marginBottom: '0.3rem' }}>➡️ Input (Masukan)</h4>
-                <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)' }}>
-                  <strong>Input</strong> adalah data atau perintah yang dimasukkan pengguna atau lingkungan luar ke dalam sistem komputer untuk diproses.
+            <div
+              style={{
+                position: 'relative',
+                width: '100%',
+                aspectRatio: '16 / 9',
+                overflow: 'hidden',
+                borderRadius: '12px',
+                backgroundColor: '#f1f5f9',
+                marginBottom: '1.5rem',
+              }}
+            >
+              <iframe
+                src="https://www.youtube.com/embed/NkoS2JXaBuM?si=ZKfQVCuD6X5-yGhi"
+                title="Video Pembelajaran Input dan Output"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  border: 0,
+                }}
+                allowFullScreen
+              />
+            </div>
+
+            <p className="concept-text">
+              Komputer berinteraksi dengan pengguna melalui proses input
+              dan output. Data atau perintah dimasukkan ke komputer,
+              diproses oleh sistem, kemudian hasilnya dapat ditampilkan
+              atau dikeluarkan melalui perangkat tertentu.
+            </p>
+
+            <div
+              style={{
+                display: 'grid',
+                gap: '1.25rem',
+                marginBottom: '1.5rem',
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: 'var(--light-blue)',
+                  padding: '1.25rem',
+                  borderRadius: 'var(--radius)',
+                  borderLeft: '4px solid var(--primary-blue)',
+                }}
+              >
+                <h4 style={{ color: 'var(--primary-blue)' }}>
+                  ➡️ Input (Masukan)
+                </h4>
+                <p>
+                  Input adalah data atau perintah yang dimasukkan ke
+                  komputer untuk diproses. Contohnya, menekan tombol
+                  keyboard untuk mengetik huruf.
                 </p>
               </div>
 
-              <div style={{ backgroundColor: '#f0fdf4', padding: '1.25rem', borderRadius: 'var(--radius)', borderLeft: '4px solid var(--success-green)' }}>
-                <h4 style={{ color: 'var(--success-green)', marginBottom: '0.3rem' }}>⬅️ Output (Keluaran)</h4>
-                <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)' }}>
-                  <strong>Output</strong> adalah informasi atau hasil yang dikeluarkan oleh komputer setelah data diproses.
+              <div
+                style={{
+                  backgroundColor: '#f0fdf4',
+                  padding: '1.25rem',
+                  borderRadius: 'var(--radius)',
+                  borderLeft: '4px solid var(--success-green)',
+                }}
+              >
+                <h4 style={{ color: 'var(--success-green)' }}>
+                  ⬅️ Output (Keluaran)
+                </h4>
+                <p>
+                  Output adalah hasil yang dikeluarkan komputer setelah
+                  data diproses. Contohnya, huruf yang diketik muncul
+                  pada layar monitor.
                 </p>
               </div>
             </div>
 
-            {/* Visual Comparison Box */}
-            <h4 style={{ color: 'var(--dark-blue)', marginTop: '2rem', marginBottom: '0.75rem' }}>Visualisasi Alur Dasar</h4>
+            <h4 style={{ color: 'var(--dark-blue)', marginBottom: '0.75rem' }}>
+              Contoh Perangkat Input dan Output
+            </h4>
+
             <div className="comparison-grid">
               <div className="comparison-box input-box">
                 <h4>INPUT 📥</h4>
-                <p style={{ fontWeight: '700', color: 'var(--dark-blue)', marginBottom: '0.5rem' }}>
-                  "Data masuk ke komputer"
-                </p>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Contoh: Keyboard, Mouse, Microphone, Scanner
-                </span>
+                <p>Data masuk ke komputer.</p>
+                <span>Keyboard, Mouse, Microphone, Scanner</span>
               </div>
 
               <div className="comparison-box output-box">
                 <h4>OUTPUT 📤</h4>
-                <p style={{ fontWeight: '700', color: 'var(--dark-blue)', marginBottom: '0.5rem' }}>
-                  "Informasi keluar dari komputer"
-                </p>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                  Contoh: Monitor, Printer, Speaker
-                </span>
+                <p>Hasil komputer disampaikan kepada pengguna.</p>
+                <span>Monitor, Printer, Speaker</span>
               </div>
             </div>
           </div>
         )}
 
-        {/* SECTION 2 */}
         {currentSection === 2 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 2 DARI 9</span>
             <h2 className="section-heading">Perangkat Input</h2>
-
             <p className="concept-text">
-              Perangkat input berfungsi sebagai alat komunikasi pengguna untuk memberikan instruksi ke komputer. Klik salah satu perangkat di bawah ini untuk melihat fungsinya:
+              Perangkat input digunakan untuk memasukkan data atau
+              perintah ke komputer. Pilih setiap perangkat untuk
+              melihat fungsi dan contoh penggunaannya.
             </p>
 
-            {/* Interactive Cards Grid */}
             <div className="device-grid">
-              {inputDevices.map((dev) => (
-                <div
-                  key={dev.id}
-                  className={`device-card ${selectedInputDevice === dev.id ? 'selected' : ''}`}
-                  onClick={() => setSelectedInputDevice(dev.id)}
+              {inputDevices.map((device) => (
+                <button
+                  type="button"
+                  key={device.id}
+                  className={`device-card ${
+                    selectedInputDevice === device.id ? 'selected' : ''
+                  }`}
+                  onClick={() => setSelectedInputDevice(device.id)}
+                  aria-pressed={selectedInputDevice === device.id}
                 >
-                  <div className="device-icon-box">{dev.icon}</div>
-                  <h4>{dev.name}</h4>
-                </div>
+                  <div className="device-icon-box">{device.icon}</div>
+                  <h4>{device.name}</h4>
+                </button>
               ))}
             </div>
 
-            {/* Selected Detail Popup */}
-            {selectedInputDevice && (
-              <div className="device-detail-box animate-fade-in">
-                {(() => {
-                  const dev = inputDevices.find((d) => d.id === selectedInputDevice);
-                  return (
-                    <>
-                      <h4 style={{ color: 'var(--dark-blue)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span>{dev.name}</span>
-                      </h4>
-                      <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)', marginBottom: '0.75rem' }}>
-                        <strong>Fungsi:</strong> {dev.func}
-                      </p>
-                      <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                        💡 <strong>Contoh Penggunaan:</strong> {dev.example}
-                      </p>
-                    </>
-                  );
-                })()}
-              </div>
+            {renderDeviceDetails(
+              inputDevices.find(
+                (device) => device.id === selectedInputDevice
+              ) || inputDevices[0]
             )}
           </div>
         )}
 
-        {/* SECTION 3 */}
         {currentSection === 3 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 3 DARI 9</span>
             <h2 className="section-heading">Perangkat Output</h2>
-
             <p className="concept-text">
-              Perangkat output bertugas menyajikan hasil olahan data komputer agar dapat dipahami dan dimanfaatkan oleh manusia. Klik pada perangkat untuk mempelajari fungsinya:
+              Perangkat output menyampaikan hasil pemrosesan komputer
+              kepada pengguna. Hasilnya dapat berupa tampilan visual,
+              cetakan, atau suara. Pilih perangkat untuk mempelajarinya.
             </p>
 
-            {/* Interactive Device Grid */}
             <div className="device-grid">
-              {outputDevices.map((dev) => (
-                <div
-                  key={dev.id}
-                  className={`device-card ${selectedOutputDevice === dev.id ? 'selected' : ''}`}
-                  onClick={() => setSelectedOutputDevice(dev.id)}
+              {outputDevices.map((device) => (
+                <button
+                  type="button"
+                  key={device.id}
+                  className={`device-card ${
+                    selectedOutputDevice === device.id ? 'selected' : ''
+                  }`}
+                  onClick={() => setSelectedOutputDevice(device.id)}
+                  aria-pressed={selectedOutputDevice === device.id}
                 >
-                  <div className="device-icon-box">{dev.icon}</div>
-                  <h4>{dev.name}</h4>
-                </div>
+                  <div className="device-icon-box">{device.icon}</div>
+                  <h4>{device.name}</h4>
+                </button>
               ))}
             </div>
 
-            {/* Detail Box */}
-            {selectedOutputDevice && (
-              <div className="device-detail-box animate-fade-in" style={{ borderLeftColor: 'var(--success-green)' }}>
-                {(() => {
-                  const dev = outputDevices.find((d) => d.id === selectedOutputDevice);
-                  return (
-                    <>
-                      <h4 style={{ color: 'var(--dark-blue)', marginBottom: '0.5rem' }}>
-                        {dev.name}
-                      </h4>
-                      <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)', marginBottom: '0.75rem' }}>
-                        <strong>Fungsi:</strong> {dev.func}
-                      </p>
-                      <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                        💡 <strong>Contoh Penggunaan:</strong> {dev.example}
-                      </p>
-                    </>
-                  );
-                })()}
-              </div>
+            {renderDeviceDetails(
+              outputDevices.find(
+                (device) => device.id === selectedOutputDevice
+              ) || outputDevices[0]
             )}
           </div>
         )}
 
-        {/* SECTION 4 */}
         {currentSection === 4 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 4 DARI 9</span>
             <h2 className="section-heading">Mengapa I/O Perlu Dikelola?</h2>
 
-            {/* School Analogy */}
             <div className="analogy-card">
               <div className="analogy-header">
                 <School size={24} color="var(--primary-blue)" />
                 <span>Analogi Sederhana: Komputer Seperti Sekolah</span>
               </div>
-              <p style={{ color: 'var(--text-dark)', fontSize: '0.95rem', lineHeight: '1.6' }}>
-                "Bayangkan komputer seperti sebuah sekolah yang ramai. Ada ratusan siswa (perangkat & aplikasi) yang mengirim dan menerima informasi bersamaan. Tanpa adanya petugas lalu lintas atau kepala sekolah (<strong>Sistem Operasi</strong>), suasana akan kacau, sinyal bertabrakan, dan instruksi tidak akan sampai tepat waktu."
+              <p style={{ color: 'var(--text-dark)', lineHeight: '1.7' }}>
+                Bayangkan sebuah sekolah yang memiliki banyak siswa
+                dan guru. Agar kegiatan berjalan teratur, diperlukan
+                pengaturan komunikasi dan penggunaan fasilitas.
+                Komputer juga membutuhkan pengelolaan agar aplikasi
+                dapat berkomunikasi dengan perangkat input dan output
+                secara teratur.
               </p>
             </div>
 
             <h4 style={{ color: 'var(--dark-blue)', margin: '1.5rem 0 0.75rem' }}>
-              Dampak Tanpa Pengelolaan I/O:
+              Apa yang perlu dikelola?
             </h4>
-            <ul style={{ paddingLeft: '1.25rem', color: 'var(--text-dark)', lineHeight: '1.8' }}>
-              <li>Perangkat keras tidak dapat berkomunikasi secara langsung dengan aplikasi.</li>
-              <li>Data dari keyboard atau mouse bisa salah terkirim ke aplikasi yang salah.</li>
-              <li>Aplikasi akan saling berebut menggunakan hardware (seperti printer) secara bersamaan hingga terjadi eror crash.</li>
+            <ul
+              style={{
+                paddingLeft: '1.25rem',
+                color: 'var(--text-dark)',
+                lineHeight: '1.8',
+              }}
+            >
+              <li>Komunikasi antara aplikasi dan perangkat.</li>
+              <li>Pengiriman data dari perangkat input ke aplikasi.</li>
+              <li>Pengiriman hasil dari aplikasi ke perangkat output.</li>
+              <li>Penggunaan perangkat agar tidak terjadi konflik.</li>
             </ul>
+
+            <div className="highlight-banner">
+              Sistem operasi membantu mengatur komunikasi antara
+              perangkat keras dan aplikasi.
+            </div>
           </div>
         )}
 
-        {/* SECTION 5 */}
         {currentSection === 5 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 5 DARI 9</span>
             <h2 className="section-heading">Manajemen Input/Output</h2>
 
-            <div style={{ backgroundColor: 'var(--light-blue)', padding: '1.5rem', borderRadius: 'var(--radius)', marginBottom: '1.5rem' }}>
-              <p style={{ fontSize: '1.05rem', color: 'var(--dark-blue)', fontWeight: '600', lineHeight: '1.6' }}>
-                "Manajemen Input/Output adalah bagian dari sistem operasi yang membantu mengatur komunikasi antara aplikasi/proses dengan perangkat I/O."
+            <div
+              style={{
+                backgroundColor: 'var(--light-blue)',
+                padding: '1.5rem',
+                borderRadius: 'var(--radius)',
+                marginBottom: '1.5rem',
+              }}
+            >
+              <p
+                style={{
+                  color: 'var(--dark-blue)',
+                  fontWeight: '600',
+                  lineHeight: '1.7',
+                }}
+              >
+                Manajemen Input/Output adalah pengelolaan komunikasi
+                dan penggunaan perangkat input/output oleh sistem
+                operasi agar data dapat berpindah antara perangkat
+                keras dan aplikasi.
               </p>
             </div>
 
-            {/* Visual concept */}
-            <h4 style={{ color: 'var(--dark-blue)', marginBottom: '1rem' }}>Struktur Komunikasi Dua Arah</h4>
+            <h4 style={{ color: 'var(--dark-blue)', marginBottom: '1rem' }}>
+              Dua Alur Komunikasi I/O
+            </h4>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-              <div style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-                <h5 style={{ color: 'var(--primary-blue)', marginBottom: '0.5rem' }}>Alur Masukan (Input):</h5>
-                <p style={{ fontWeight: '700', fontSize: '0.9rem' }}>
-                  Perangkat I/O ➔ Sistem Operasi ➔ Aplikasi/Proses
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                gap: '1rem',
+                marginBottom: '1.5rem',
+              }}
+            >
+              <div
+                style={{
+                  background: '#f8fafc',
+                  padding: '1.25rem',
+                  borderRadius: 'var(--radius)',
+                  border: '1px solid var(--border-color)',
+                }}
+              >
+                <h5 style={{ color: 'var(--primary-blue)' }}>
+                  Alur Input
+                </h5>
+                <p style={{ fontWeight: '700', lineHeight: '1.7' }}>
+                  Perangkat Input → Sistem Operasi → Aplikasi
+                </p>
+                <p>
+                  Contoh: tombol keyboard ditekan, lalu huruf diterima
+                  oleh aplikasi pengolah kata.
                 </p>
               </div>
 
-              <div style={{ background: '#f8fafc', padding: '1.25rem', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-                <h5 style={{ color: 'var(--success-green)', marginBottom: '0.5rem' }}>Alur Keluaran (Output):</h5>
-                <p style={{ fontWeight: '700', fontSize: '0.9rem' }}>
-                  Aplikasi/Proses ➔ Sistem Operasi ➔ Perangkat I/O
+              <div
+                style={{
+                  background: '#f8fafc',
+                  padding: '1.25rem',
+                  borderRadius: 'var(--radius)',
+                  border: '1px solid var(--border-color)',
+                }}
+              >
+                <h5 style={{ color: 'var(--success-green)' }}>
+                  Alur Output
+                </h5>
+                <p style={{ fontWeight: '700', lineHeight: '1.7' }}>
+                  Aplikasi → Sistem Operasi → Perangkat Output
+                </p>
+                <p>
+                  Contoh: aplikasi meminta tampilan dokumen diperbarui,
+                  lalu hasilnya terlihat pada monitor.
                 </p>
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <div style={{ padding: '0.85rem 1rem', background: '#fff', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }}>
-                <strong>Perangkat I/O:</strong> Perangkat fisik yang digunakan untuk menerima masukan atau menghasilkan keluaran data.
+            <h4 style={{ color: 'var(--dark-blue)', marginBottom: '0.75rem' }}>
+              Peran Setiap Komponen
+            </h4>
+            <div style={{ display: 'grid', gap: '0.75rem' }}>
+              <div className="device-detail-box">
+                <strong>1. Perangkat I/O</strong>
+                <p>
+                  Menerima data dari pengguna atau menyampaikan hasil
+                  komputer kepada pengguna.
+                </p>
               </div>
-              <div style={{ padding: '0.85rem 1rem', background: '#fff', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }}>
-                <strong>Sistem Operasi:</strong> Penerjemah dan pengatur penerimaan sinyal antrean (driver & buffer).
+              <div className="device-detail-box">
+                <strong>2. Sistem Operasi</strong>
+                <p>
+                  Mengatur komunikasi antara perangkat keras dan
+                  aplikasi serta membantu penggunaan perangkat.
+                </p>
               </div>
-              <div style={{ padding: '0.85rem 1rem', background: '#fff', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)' }}>
-                <strong>Aplikasi/Proses:</strong> Program perangkat lunak yang mengolah data pengguna.
+              <div className="device-detail-box">
+                <strong>3. Aplikasi</strong>
+                <p>
+                  Menggunakan input untuk menjalankan fungsi program
+                  dan menghasilkan informasi yang perlu ditampilkan.
+                </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* SECTION 6 */}
         {currentSection === 6 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 6 DARI 9</span>
-            <h2 className="section-heading">Peran Sistem Operasi dalam Manajemen I/O</h2>
+            <h2 className="section-heading">
+              Peran Sistem Operasi dalam Manajemen I/O
+            </h2>
 
             <p className="concept-text">
-              Aplikasi seperti Word, WhatsApp, atau Browser <strong>tidak perlu mengontrol hardware secara langsung</strong>. Sistem operasi yang melakukan semua pekerjaan rumit tersebut di latar belakang.
+              Sistem operasi menjadi penghubung antara aplikasi dan
+              perangkat keras. Dengan bantuan sistem operasi, aplikasi
+              dapat menggunakan perangkat tanpa harus mengatur seluruh
+              cara kerja perangkat tersebut secara langsung.
             </p>
 
             <div style={{ display: 'grid', gap: '1.25rem' }}>
-              <div style={{ background: '#eff6ff', padding: '1.25rem', borderRadius: 'var(--radius)', border: '1px solid #bfdbfe' }}>
-                <h4 style={{ color: 'var(--primary-blue)', marginBottom: '0.5rem' }}>1. Ketika Pengguna Mengetik di Keyboard</h4>
-                <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)' }}>
-                  <strong>Keyboard ➔ Sistem Operasi ➔ Aplikasi</strong>
-                  <br />
-                  Sistem operasi menerima tombol ketikan fisik dari keyboard, memverifikasi driver, lalu meneruskannya ke aplikasi pengolah kata yang sedang aktif.
+              <div
+                style={{
+                  background: '#eff6ff',
+                  padding: '1.25rem',
+                  borderRadius: 'var(--radius)',
+                  border: '1px solid #bfdbfe',
+                }}
+              >
+                <h4 style={{ color: 'var(--primary-blue)', marginBottom: '0.5rem' }}>
+                  1. Saat Pengguna Mengetik
+                </h4>
+                <p>
+                  <strong>Keyboard → Sistem Operasi → Aplikasi</strong>
+                </p>
+                <p>
+                  Sistem operasi membantu menerima informasi dari
+                  keyboard dan meneruskannya ke aplikasi yang sedang
+                  digunakan.
                 </p>
               </div>
 
-              <div style={{ background: '#f0fdf4', padding: '1.25rem', borderRadius: 'var(--radius)', border: '1px solid #bbf7d0' }}>
-                <h4 style={{ color: 'var(--success-green)', marginBottom: '0.5rem' }}>2. Ketika Aplikasi Menampilkan Gambar</h4>
-                <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)' }}>
-                  <strong>Aplikasi ➔ Sistem Operasi ➔ Monitor</strong>
-                  <br />
-                  Aplikasi meminta data visual ditampilkan, kemudian sistem operasi mengirimkan instruksi ke kartu grafis dan monitor.
+              <div
+                style={{
+                  background: '#f0fdf4',
+                  padding: '1.25rem',
+                  borderRadius: 'var(--radius)',
+                  border: '1px solid #bbf7d0',
+                }}
+              >
+                <h4 style={{ color: 'var(--success-green)', marginBottom: '0.5rem' }}>
+                  2. Saat Aplikasi Menampilkan Dokumen
+                </h4>
+                <p>
+                  <strong>Aplikasi → Sistem Operasi → Monitor</strong>
+                </p>
+                <p>
+                  Aplikasi menghasilkan informasi yang akan ditampilkan.
+                  Sistem operasi membantu mengatur penyampaian informasi
+                  tersebut sehingga hasilnya dapat terlihat di monitor.
                 </p>
               </div>
             </div>
 
-            {/* Highlight Banner */}
             <div className="highlight-banner">
-              "Sistem operasi berperan sebagai penghubung dan penerjemah utama antara aplikasi dan perangkat I/O."
+              Sistem operasi membantu aplikasi berkomunikasi dengan
+              perangkat input dan output.
             </div>
           </div>
         )}
 
-        {/* SECTION 7 */}
         {currentSection === 7 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 7 DARI 9</span>
             <h2 className="section-heading">Alur Input (Masukan)</h2>
 
             <p className="concept-text">
-              Mari amati alur konkret saat siswa memencet tombol huruf <strong>"A"</strong> pada Keyboard hingga muncul di aplikasi:
+              Amati perjalanan huruf saat pengguna menekan tombol
+              keyboard hingga huruf diterima oleh aplikasi pengolah kata.
             </p>
 
             <Diagram
               mode="input"
-              title="Alur Pengiriman Input Huruf 'A'"
+              title="Alur Input Huruf A"
               deviceLabel="⌨️ Keyboard"
               appLabel="📄 Aplikasi Pengolah Kata"
-              sampleData="Huruf 'A'"
+              sampleData="Huruf A"
               customDetails={{
                 device: {
                   title: '1. Keyboard (Perangkat Input)',
-                  desc: 'Pengguna menekan tombol "A". Sinyal listrik fisik terdeteksi oleh sirkuit keyboard.',
+                  desc: 'Pengguna menekan tombol huruf A untuk memasukkan data ke komputer.',
                 },
                 os: {
-                  title: '2. Sistem Operasi (Pengelola I/O)',
-                  desc: 'Sistem operasi menangkap sinyal interrupt dari keyboard, menerjemahkan kode tombol (scancode "A"), dan memasukkannya ke antrean masukan.',
+                  title: '2. Sistem Operasi',
+                  desc: 'Sistem operasi membantu menerima informasi dari keyboard dan meneruskannya ke aplikasi yang aktif.',
                 },
                 app: {
-                  title: '3. Aplikasi (Pengolah Kata)',
-                  desc: 'Aplikasi aktif menerima karakter "A" dari sistem operasi dan menampilkan huruf tersebut pada dokumen.',
+                  title: '3. Aplikasi Pengolah Kata',
+                  desc: 'Aplikasi menerima input dan memprosesnya sebagai karakter yang akan ditampilkan pada dokumen.',
                 },
               }}
             />
+
+            <div className="device-detail-box" style={{ marginTop: '1.5rem' }}>
+              <strong>Hubungkan dengan LKPD</strong>
+              <p>
+                Tuliskan urutan perjalanan data dari keyboard ke aplikasi.
+                Jelaskan peran sistem operasi di dalam alur tersebut.
+              </p>
+            </div>
           </div>
         )}
 
-        {/* SECTION 8 */}
         {currentSection === 8 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 8 DARI 9</span>
             <h2 className="section-heading">Alur Output (Keluaran)</h2>
 
             <p className="concept-text">
-              Mari amati alur saat aplikasi hendak menampilkan hasil informasi ke layar Monitor:
+              Setelah aplikasi memproses input, hasilnya dapat ditampilkan
+              kepada pengguna. Amati alur penyampaian informasi dari
+              aplikasi menuju monitor.
             </p>
 
             <Diagram
               mode="output"
-              title="Alur Pengiriman Output Tampilan Visual"
-              deviceLabel="🖥️ Monitor (Perangkat Output)"
-              appLabel="📄 Aplikasi / Game"
-              sampleData="Frame Gambar Visual"
+              title="Alur Output Tampilan Visual"
+              deviceLabel="🖥️ Monitor"
+              appLabel="📄 Aplikasi"
+              sampleData="Teks pada dokumen"
               customDetails={{
                 app: {
-                  title: '1. Aplikasi / Game',
-                  desc: 'Aplikasi menentukan teks atau gambar yang perlu ditampilkan kepada pengguna.',
+                  title: '1. Aplikasi',
+                  desc: 'Aplikasi menentukan teks, gambar, atau informasi yang perlu ditampilkan.',
                 },
                 os: {
                   title: '2. Sistem Operasi',
-                  desc: 'Sistem operasi menerima data dari aplikasi, mengalokasikan memori grafis, dan memanggil driver monitor.',
+                  desc: 'Sistem operasi membantu mengatur penyampaian informasi visual menuju perangkat output.',
                 },
                 device: {
-                  title: '3. Monitor (Perangkat Output)',
-                  desc: 'Monitor menerima sinyal sinar piksel dari sistem operasi dan menampilkan visual utuh ke layar.',
+                  title: '3. Monitor',
+                  desc: 'Monitor menampilkan informasi visual agar dapat dilihat pengguna.',
                 },
               }}
             />
+
+            <div className="device-detail-box" style={{ marginTop: '1.5rem' }}>
+              <strong>Hubungkan dengan LKPD</strong>
+              <p>
+                Jelaskan mengapa monitor termasuk perangkat output
+                dan bagaimana sistem operasi membantu aplikasi
+                menampilkan informasi.
+              </p>
+            </div>
           </div>
         )}
 
-        {/* SECTION 9 */}
         {currentSection === 9 && (
           <div className="animate-fade-in">
             <span className="section-badge">BAGIAN 9 DARI 9</span>
             <h2 className="section-heading">Contoh Permasalahan I/O</h2>
 
             <p className="concept-text">
-              Dalam kehidupan sehari-hari, sistem I/O dapat mengalami gangguan. Berikut adalah contoh situasi permasalahan yang perlu dianalisis:
+              Gangguan I/O dapat terjadi pada perangkat, sistem operasi,
+              aplikasi, atau proses penyampaian output. Periksa alurnya
+              sebelum menentukan kemungkinan penyebab.
             </p>
 
             <div style={{ display: 'grid', gap: '1.25rem', marginBottom: '2rem' }}>
-              {/* Problem 1 */}
-              <div style={{ backgroundColor: '#fffbeb', border: '2px solid #fde68a', padding: '1.5rem', borderRadius: 'var(--radius)' }}>
-                <h4 style={{ color: 'var(--warning-amber)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div
+                style={{
+                  backgroundColor: '#fffbeb',
+                  border: '2px solid #fde68a',
+                  padding: '1.5rem',
+                  borderRadius: 'var(--radius)',
+                }}
+              >
+                <h4
+                  style={{
+                    color: 'var(--warning-amber)',
+                    marginBottom: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
                   <HelpCircle size={20} />
-                  <span>Studi Kasus 1: Ketikan Tidak Muncul</span>
+                  Studi Kasus 1: Ketikan Tidak Muncul
                 </h4>
-                <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)', marginBottom: '0.75rem' }}>
-                  <em>"Rani mengetik menggunakan keyboard, tetapi karakter tidak muncul pada layar monitor."</em>
+
+                <p style={{ marginBottom: '0.75rem' }}>
+                  <em>
+                    Rani mengetik menggunakan keyboard, tetapi huruf
+                    yang ditekan tidak muncul pada dokumen, padahal
+                    aplikasi pengolah kata masih terbuka.
+                  </em>
                 </p>
-                <div style={{ background: '#fff', padding: '0.85rem', borderRadius: 'var(--radius-sm)', border: '1px solid #fef3c7', fontSize: '0.9rem' }}>
-                  <strong>Komponen yang perlu dianalisis:</strong> Keyboard (apakah tersambung?), Sistem Operasi (driver terdeteksi?), Aplikasi (apakah jendela aktif diklik?), dan Monitor.
+
+                <div
+                  style={{
+                    background: '#fff',
+                    padding: '0.85rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid #fef3c7',
+                  }}
+                >
+                  <strong>Hal yang perlu diperiksa:</strong>
+                  <ul style={{ paddingLeft: '1.25rem', marginTop: '0.5rem' }}>
+                    <li>Apakah keyboard terhubung dan berfungsi?</li>
+                    <li>Apakah aplikasi pengolah kata sedang aktif?</li>
+                    <li>Apakah sistem operasi mengenali keyboard?</li>
+                    <li>Apakah informasi dapat diteruskan sampai ke tampilan monitor?</li>
+                  </ul>
                 </div>
+
+                <p style={{ marginTop: '0.75rem' }}>
+                  <strong>Tugas:</strong> Tuliskan kemungkinan penyebab,
+                  komponen yang perlu diperiksa, alasanmu, dan solusi
+                  yang sesuai pada LKPD.
+                </p>
               </div>
 
-              {/* Problem 2 */}
-              <div style={{ backgroundColor: '#fffbeb', border: '2px solid #fde68a', padding: '1.5rem', borderRadius: 'var(--radius)' }}>
-                <h4 style={{ color: 'var(--warning-amber)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <div
+                style={{
+                  backgroundColor: '#fffbeb',
+                  border: '2px solid #fde68a',
+                  padding: '1.5rem',
+                  borderRadius: 'var(--radius)',
+                }}
+              >
+                <h4
+                  style={{
+                    color: 'var(--warning-amber)',
+                    marginBottom: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                  }}
+                >
                   <HelpCircle size={20} />
-                  <span>Studi Kasus 2: Dokumen Printer Tertahan</span>
+                  Studi Kasus 2: Dokumen Tidak Tercetak
                 </h4>
-                <p style={{ fontSize: '0.95rem', color: 'var(--text-dark)', marginBottom: '0.75rem' }}>
-                  <em>"Printer terdeteksi oleh komputer, tetapi dokumen dari aplikasi tidak kunjung mencetak."</em>
+
+                <p style={{ marginBottom: '0.75rem' }}>
+                  <em>
+                    Printer terdeteksi oleh komputer, tetapi dokumen
+                    yang dikirim dari aplikasi tidak kunjung dicetak.
+                  </em>
                 </p>
-                <div style={{ background: '#fff', padding: '0.85rem', borderRadius: 'var(--radius-sm)', border: '1px solid #fef3c7', fontSize: '0.9rem' }}>
-                  <strong>Komponen yang perlu dianalisis:</strong> Antrean cetak (spooler) di Sistem Operasi, koneksi fisik printer, atau status kertas/tinta.
+
+                <div
+                  style={{
+                    background: '#fff',
+                    padding: '0.85rem',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid #fef3c7',
+                  }}
+                >
+                  <strong>Hal yang perlu diperiksa:</strong>
+                  <ul style={{ paddingLeft: '1.25rem', marginTop: '0.5rem' }}>
+                    <li>Apakah printer memiliki kertas dan tinta?</li>
+                    <li>Apakah koneksi printer berfungsi?</li>
+                    <li>Apakah ada dokumen yang tertahan dalam antrean cetak?</li>
+                  </ul>
                 </div>
               </div>
             </div>
 
-            {/* Completion Card Banner */}
             <div className="completion-banner animate-fade-in">
-              <Sparkles size={40} color="var(--success-green)" style={{ marginBottom: '0.5rem' }} />
+              <Sparkles
+                size={40}
+                color="var(--success-green)"
+                style={{ marginBottom: '0.5rem' }}
+              />
               <h3>🎉 Materi Selesai!</h3>
               <p>
-                Selamat! Kamu telah berhasil mempelajari seluruh 9 bagian materi dasar <strong>Manajemen Sistem Input/Output</strong>.
+                Kamu telah mempelajari perangkat input dan output,
+                peran sistem operasi, alur komunikasi I/O, serta contoh
+                gangguan yang dapat dianalisis.
+              </p>
+              <p style={{ margin: '0.75rem 0 1rem' }}>
+                Sebelum melanjutkan, pastikan hasil pengamatan dan
+                analisismu sudah dicatat pada LKPD.
               </p>
               <Button
                 variant="success"
@@ -563,7 +842,6 @@ export default function Materials({ setActiveTab }) {
         )}
       </div>
 
-      {/* Navigation Buttons Footer */}
       <div className="materials-nav-footer">
         <Button
           variant="outline"
@@ -574,7 +852,13 @@ export default function Materials({ setActiveTab }) {
           Sebelumnya
         </Button>
 
-        <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: '600' }}>
+        <span
+          style={{
+            fontSize: '0.9rem',
+            color: 'var(--text-muted)',
+            fontWeight: '600',
+          }}
+        >
           {currentSection} / {totalSections}
         </span>
 
